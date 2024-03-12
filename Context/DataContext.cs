@@ -17,7 +17,11 @@ namespace BudgetPlanner.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.BudgetItems)
+                .WithOne(bi => bi.User)
+                .HasForeignKey(bi => bi.UserId)
+                .IsRequired(false); //setting this relationship as false so that modelstate won't complain
         }
     }
 }
