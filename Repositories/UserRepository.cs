@@ -1,4 +1,5 @@
 ﻿using BudgetPlanner.Context;
+using BudgetPlanner.DTO;
 using BudgetPlanner.Interfaces;
 using BudgetPlanner.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@ namespace BudgetPlanner.Repositories
 
         public bool CreateUser(User user)
         {
+            if (!UserEmailExists(user.Id)) return false;
+
             _context.Users.Add(user);
             return Save();
         }
@@ -25,9 +28,26 @@ namespace BudgetPlanner.Repositories
             return Save();
         }
 
-        public bool ModifyUser(User user)
+        public User GetUserById(int id)
         {
-            _context.Users.Update(user);
+            var existingUser = _context.Users.Include(u => u.BudgetItems).FirstOrDefault();
+
+            if (existingUser == null) return null;
+
+            return existingUser;
+        }
+
+        public bool ModifyUser(UserDTO user)
+        {
+            var existingUser = _context.Users.Include(u => u.BudgetItems).FirstOrDefault(u => u.Id == user.Id);
+
+            if (existingUser == null) return false; //user does not exist
+
+            existingUser.Name = user.Name;
+            existingUser.Email = user.Email;
+            existingUser.Password = user.Password;
+
+            _context.Users.Update(existingUser);
             return Save();
         }
 
