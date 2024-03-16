@@ -16,6 +16,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 }); //gets rid of circular entity issues with foreign entities and relationships
 builder.Services.AddTransient<seed>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBudgetItemRepository, BudgetItemRepository>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("TestDefaultConnection"));
