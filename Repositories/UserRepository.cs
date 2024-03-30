@@ -15,7 +15,7 @@ namespace BudgetPlanner.Repositories
 
         public bool CreateUser(User user)
         {
-            if (!UserEmailExists(user.Id)) return false;
+            if (UserEmailExists(user.Email)) return false;
 
             _context.Users.Add(user);
             return Save();
@@ -57,9 +57,9 @@ namespace BudgetPlanner.Repositories
             return saved > 0 ? true : false;
         }
 
-        public bool UserEmailExists(int id)
+        public bool UserEmailExists(string email)
         {
-            return _context.Users.Where(u => u.Id == id).Any();
+            return _context.Users.Where(u => u.Email == email).Any();
         }
     }
 }
