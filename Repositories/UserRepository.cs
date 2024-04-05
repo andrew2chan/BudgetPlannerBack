@@ -28,9 +28,9 @@ namespace BudgetPlanner.Repositories
             return Save();
         }
 
-        public User GetUserById(int id)
+        public User GetUserByEmail(CredentialsDTO credentials)
         {
-            var existingUser = _context.Users.Include(u => u.BudgetItems).FirstOrDefault();
+            var existingUser = _context.Users.Where(u => u.Email == credentials.Email).Include(u => u.BudgetItems).FirstOrDefault();
 
             if (existingUser == null) return null;
 

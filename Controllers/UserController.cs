@@ -69,15 +69,15 @@ namespace BudgetPlanner.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
+        [HttpPost("login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetUserById(int id)
+        public IActionResult GetUserById([FromBody] CredentialsDTO credentials)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = _userRepository.GetUserById(id);
+            var user = _userRepository.GetUserByEmail(credentials);
 
             if(user == null)
             {
