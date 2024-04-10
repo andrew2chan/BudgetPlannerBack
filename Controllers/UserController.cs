@@ -27,7 +27,16 @@ namespace BudgetPlanner.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var userCreated = _userRepository.CreateUser(user);
+            var newUser = new User
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                MonthlyIncome = 0,
+                BudgetItems = new List<BudgetItem>()
+            };
+
+            var userCreated = _userRepository.CreateUser(newUser);
 
             if(!userCreated)
             {
@@ -72,7 +81,7 @@ namespace BudgetPlanner.Controllers
         [HttpPost("login")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult GetUserById([FromBody] CredentialsDTO credentials)
+        public IActionResult GetUserByCredentials([FromBody] CredentialsDTO credentials)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
