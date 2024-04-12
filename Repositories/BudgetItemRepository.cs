@@ -27,7 +27,21 @@ namespace BudgetPlanner.Repositories
         public bool Save()
         {
             var saved = _context.SaveChanges();
-            return saved > 0? true: false;
+            return saved > 0 ? true: false;
+        }
+
+        public bool UpdateBudgetItemCost(BudgetItemDTO budgetItemDTO)
+        {
+            var budgetItem = _context.BudgetItems.Where(bi => bi.Id == budgetItemDTO.Id).FirstOrDefault();
+
+            if (budgetItem == null) {
+                return false; //can't find the id
+            }
+
+            budgetItem.BudgetItemCost = budgetItemDTO.BudgetItemCost;
+
+            _context.BudgetItems.Update(budgetItem);
+            return Save();
         }
     }
 }

@@ -6,6 +6,7 @@ namespace BudgetPlanner.Interfaces
     {
         ICollection<BudgetItem> GetBudgetItemsByUserId(int id);
         BudgetItem GetBudgetItemById(int id);
+        bool UpdateBudgetItemCost(BudgetItemDTO budgetItemDTO);
         bool Save();
     }
 }
