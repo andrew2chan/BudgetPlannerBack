@@ -17,6 +17,8 @@ namespace BudgetPlanner.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseSerialColumns();
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.BudgetItems)
                 .WithOne(bi => bi.User)

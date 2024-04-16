@@ -12,16 +12,24 @@ namespace BudgetPlanner.Repositories
             _context = context;
         }
 
-        public BudgetItem GetBudgetItemById(int id)
+        public bool AddNewBudgetItem(BudgetItemDTO budgetItemDTO)
         {
-            var budgetItem = _context.BudgetItems.Where(bi => bi.Id == id).FirstOrDefault();
-            return budgetItem;
+            var budgetItem = new BudgetItem
+            {
+                BudgetItemName = budgetItemDTO.BudgetItemName,
+                BudgetItemCost = budgetItemDTO.BudgetItemCost,
+                UserId = budgetItemDTO.UserId,
+            };
+
+            _context.BudgetItems.Add(budgetItem);
+            return Save();
         }
 
-        public ICollection<BudgetItem> GetBudgetItemsByUserId(int id)
+        public bool DeleteBudgetItemById(int id)
         {
-            var budgetItems = _context.BudgetItems.Where(bi => bi.UserId == id).ToList();
-            return budgetItems;
+            _context.BudgetItems.Remove(_context.BudgetItems.Where(bi => bi.Id == id).First());
+
+            return Save();
         }
 
         public bool Save()

@@ -6,26 +6,21 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BudgetPlanner.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class newinitialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "BudgetItems");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    MonthlyIncome = table.Column<int>(type: "integer", nullable: false)
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    MonthlyIncome = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,7 +32,7 @@ namespace BudgetPlanner.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     BudgetItemName = table.Column<string>(type: "text", nullable: false),
                     BudgetItemCost = table.Column<double>(type: "double precision", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
@@ -49,8 +44,7 @@ namespace BudgetPlanner.Migrations
                         name: "FK_BudgetItems_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -62,7 +56,11 @@ namespace BudgetPlanner.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
+            migrationBuilder.DropTable(
+                name: "BudgetItems");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

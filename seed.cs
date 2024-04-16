@@ -1,6 +1,8 @@
 ﻿using BudgetPlanner.Context;
 using BudgetPlanner.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.ComponentModel.DataAnnotations;
 
 namespace BudgetPlanner
@@ -23,18 +25,21 @@ namespace BudgetPlanner
                         Id = 1,
                         Name = "Bob",
                         Email = "test@a.c",
+                        Password = "test",
                         MonthlyIncome = 3500
                     },
                     new User() {
                         Id = 2,
                         Name = "Steve",
                         Email = "x@t.y",
+                        Password = "test",
                         MonthlyIncome = 4500
                     },
                     new User() {
                         Id = 3,
                         Name = "John",
                         Email = "j@u.p",
+                        Password = "test",
                         MonthlyIncome = 6700
                     },
                 };
@@ -70,6 +75,8 @@ namespace BudgetPlanner
                 _context.AddRange(seededUserData);
                 _context.AddRange(seededBudgetItemData);
                 _context.SaveChanges();
+
+                _context.Database.ExecuteSqlRaw("SELECT setval('\"BudgetItems_Id_seq\"', (SELECT MAX(\"BudgetItems\".\"Id\") FROM \"BudgetItems\"))");
             }
         }
     }

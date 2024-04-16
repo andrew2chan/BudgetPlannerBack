@@ -13,6 +13,29 @@ namespace BudgetPlanner.Controllers
             _budgetItemRepository = budgetItemRepository;
         }
 
+        [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult DeleteBudgetItem(int id)
+        {
+            _budgetItemRepository.DeleteBudgetItemById(id);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult AddNewBudgetItem(BudgetItemDTO budgetItemDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            _budgetItemRepository.AddNewBudgetItem(budgetItemDTO);
+
+            return Ok();
+        }
+
         [HttpPut]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

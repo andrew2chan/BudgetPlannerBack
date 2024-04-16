@@ -4,8 +4,8 @@ namespace BudgetPlanner.Interfaces
 {
     public interface IBudgetItemRepository
     {
-        ICollection<BudgetItem> GetBudgetItemsByUserId(int id);
-        BudgetItem GetBudgetItemById(int id);
+        bool DeleteBudgetItemById(int id);
+        bool AddNewBudgetItem(BudgetItemDTO budgetItemDTO);
         bool UpdateBudgetItemCost(BudgetItemDTO budgetItemDTO);
         bool Save();
     }
