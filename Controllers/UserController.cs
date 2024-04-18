@@ -25,6 +25,22 @@ namespace BudgetPlanner.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if(ValidateEmail(user.Email))
+            {
+                ModelState.AddModelError("Error", "Please enter a valid email address");
+                return BadRequest(ModelState);
+            }
+            if(ValidatePassword(user.Password))
+            {
+                ModelState.AddModelError("Error", "Please enter a password");
+                return BadRequest(ModelState);
+            }
+            if(ValidateName(user.Name))
+            {
+                ModelState.AddModelError("Error", "Please enter a name");
+                return BadRequest(ModelState);
+            }
+
             var newUser = new User
             {
                 Name = user.Name,
@@ -70,6 +86,25 @@ namespace BudgetPlanner.Controllers
             if(!updateUserSuccess)
             {
                 ModelState.AddModelError("Error", "User id does not exist");
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut("monthlyincome")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateMonthlyIncome([FromBody] MonthlyBudgetDTO monthlyBudgetDTO)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updateMonthlyIncome = _userRepository.UpdateUserIncome(monthlyBudgetDTO);
+
+            if (!updateMonthlyIncome)
+            {
+                ModelState.AddModelError("Error", "Error does not exist. Could not update income.");
                 return BadRequest(ModelState);
             }
 

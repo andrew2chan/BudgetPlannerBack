@@ -77,6 +77,7 @@ namespace BudgetPlanner
                 _context.SaveChanges();
 
                 _context.Database.ExecuteSqlRaw("SELECT setval('\"BudgetItems_Id_seq\"', (SELECT MAX(\"BudgetItems\".\"Id\") FROM \"BudgetItems\"))");
+                _context.Database.ExecuteSqlRaw("SELECT setval('\"Users_Id_seq\"', (SELECT MAX(\"Users\".\"Id\") FROM \"Users\"))");
             }
         }
     }

@@ -8,6 +8,7 @@ namespace BudgetPlanner.Interfaces
         bool CreateUser(User user);
         bool DeleteUserById(int id);
         bool ModifyUser(UserDTO user);
+        bool UpdateUserIncome(MonthlyBudgetDTO monthlyBudget);
         User GetUserByEmail(CredentialsDTO credentials);
         bool UserEmailExists(string email);
         bool Save();

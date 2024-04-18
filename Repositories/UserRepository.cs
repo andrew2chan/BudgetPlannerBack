@@ -57,6 +57,18 @@ namespace BudgetPlanner.Repositories
             return saved > 0 ? true : false;
         }
 
+        public bool UpdateUserIncome(MonthlyBudgetDTO monthlyBudget)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == monthlyBudget.Id);
+
+            if(user == null) return false;
+
+            user.MonthlyIncome = monthlyBudget.MonthlyIncome;
+
+            _context.Users.Update(user);
+            return Save();
+        }
+
         public bool UserEmailExists(string email)
         {
             return _context.Users.Where(u => u.Email == email).Any();
