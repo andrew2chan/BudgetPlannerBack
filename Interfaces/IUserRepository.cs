@@ -9,7 +9,7 @@ namespace BudgetPlanner.Interfaces
         bool DeleteUserById(int id);
         bool ModifyUser(UserDTO user);
         bool UpdateUserIncome(MonthlyBudgetDTO monthlyBudget);
-        User GetUserByEmail(CredentialsDTO credentials);
+        ProfileDTO GetUserByEmail(CredentialsDTO credentials);
         bool UserEmailExists(string email);
         bool Save();
     }

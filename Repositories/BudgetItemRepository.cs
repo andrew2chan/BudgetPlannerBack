@@ -16,6 +16,7 @@ namespace BudgetPlanner.Repositories
         {
             var budgetItem = new BudgetItem
             {
+                Id = budgetItemDTO.Id,
                 BudgetItemName = budgetItemDTO.BudgetItemName,
                 BudgetItemCost = budgetItemDTO.BudgetItemCost,
                 UserId = budgetItemDTO.UserId,

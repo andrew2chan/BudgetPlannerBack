@@ -28,13 +28,22 @@ namespace BudgetPlanner.Repositories
             return Save();
         }
 
-        public User GetUserByEmail(CredentialsDTO credentials)
+        public ProfileDTO GetUserByEmail(CredentialsDTO credentials)
         {
             var existingUser = _context.Users.Where(u => u.Email == credentials.Email).Include(u => u.BudgetItems).FirstOrDefault();
 
             if (existingUser == null) return null;
 
-            return existingUser;
+            var profileDTO = new ProfileDTO
+            {
+                Id = existingUser.Id,
+                Name = existingUser.Name,
+                Email = existingUser.Email,
+                MonthlyIncome = existingUser.MonthlyIncome,
+                BudgetItems = existingUser.BudgetItems
+            };
+
+            return profileDTO;
         }
 
         public bool ModifyUser(UserDTO user)
@@ -45,7 +54,7 @@ namespace BudgetPlanner.Repositories
 
             existingUser.Name = user.Name;
             existingUser.Email = user.Email;
-            existingUser.Password = user.Password;
+            if(user.Password != null) existingUser.Password = user.Password;
 
             _context.Users.Update(existingUser);
             return Save();

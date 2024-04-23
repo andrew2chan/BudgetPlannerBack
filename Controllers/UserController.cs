@@ -30,12 +30,12 @@ namespace BudgetPlanner.Controllers
                 ModelState.AddModelError("Error", "Please enter a valid email address");
                 return BadRequest(ModelState);
             }
-            if(ValidatePassword(user.Password))
+            if(!ValidatePassword(user.Password))
             {
                 ModelState.AddModelError("Error", "Please enter a password");
                 return BadRequest(ModelState);
             }
-            if(ValidateName(user.Name))
+            if(!ValidateName(user.Name))
             {
                 ModelState.AddModelError("Error", "Please enter a name");
                 return BadRequest(ModelState);
@@ -80,6 +80,17 @@ namespace BudgetPlanner.Controllers
         {
             if(!ModelState.IsValid) 
                 return BadRequest(ModelState);
+
+            if (ValidateEmail(user.Email))
+            {
+                ModelState.AddModelError("Error", "Please enter a valid email address");
+                return BadRequest(ModelState);
+            }
+            if (!ValidateName(user.Name))
+            {
+                ModelState.AddModelError("Error", "Please enter a name");
+                return BadRequest(ModelState);
+            }
 
             var updateUserSuccess = _userRepository.ModifyUser(user);
 
@@ -143,7 +154,7 @@ namespace BudgetPlanner.Controllers
 
             String pattern = @"\s{1,}";
 
-            if (password.Length == 0 || Regex.IsMatch(password, pattern, RegexOptions.IgnoreCase))
+            if (password == null || password.Length == 0 || Regex.IsMatch(password, pattern, RegexOptions.IgnoreCase))
                 passwordIsValid = false;
 
             return passwordIsValid;
@@ -154,7 +165,7 @@ namespace BudgetPlanner.Controllers
 
             var nameIsValid = false;
 
-            String pattern = @"[A-Z]{1,}";
+            String pattern = @"[a-zA-Z]{1,}";
 
             if (Regex.IsMatch(name, pattern, RegexOptions.IgnoreCase))
                 nameIsValid = true;
